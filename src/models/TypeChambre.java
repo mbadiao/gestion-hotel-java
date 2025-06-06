@@ -1,17 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package models;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-
-/**
- *
- * @author diaom
- */
 public class TypeChambre {
     private int id;
     private String nom;
@@ -22,7 +13,6 @@ public class TypeChambre {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     
-    // Constructeurs
     public TypeChambre() {}
     
     public TypeChambre(String nom, String description, BigDecimal prixBase, int capaciteMax) {

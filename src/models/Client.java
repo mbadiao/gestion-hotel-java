@@ -1,5 +1,6 @@
 package models;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -23,7 +24,7 @@ public class Client {
         this.typeClient = TypeClient.INDIVIDUEL;
     }
     
-    public Client(String nom, String prenom, String email, String telephone) {
+    public Client(int i, String nom, String prenom, String email, String telephone, String string, Date date, String string2, String string3, String string4) {
         this();
         this.nom = nom;
         this.prenom = prenom;
