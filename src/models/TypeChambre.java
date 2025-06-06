@@ -15,11 +15,12 @@ public class TypeChambre {
     
     public TypeChambre() {}
     
-    public TypeChambre(String nom, String description, BigDecimal prixBase, int capaciteMax) {
+    public TypeChambre(String nom, String description, BigDecimal prixBase, int capaciteMax, String amenities) {
         this.nom = nom;
         this.description = description;
         this.prixBase = prixBase;
         this.capaciteMax = capaciteMax;
+        this.amenities = amenities;
     }
     
     public int getId() { return id; }

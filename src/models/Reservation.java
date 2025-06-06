@@ -31,12 +31,20 @@ public class Reservation {
         this.acompte = BigDecimal.ZERO;
         this.chambres = new ArrayList<>();
     }
-    
-    public Reservation(int clientId, LocalDate dateCheckin, LocalDate dateCheckout) {
+
+    public Reservation(int clientId, Client client, LocalDate dateCheckin, LocalDate dateCheckout, int nombreAdultes, int nombreEnfants, StatutReservation statut, BigDecimal montantTotal, BigDecimal acompte, String commentaires, List<ReservationChambre> chambres) {
         this();
         this.clientId = clientId;
+        this.client = client;
         this.dateCheckin = dateCheckin;
         this.dateCheckout = dateCheckout;
+        this.nombreAdultes = nombreAdultes;
+        this.nombreEnfants = nombreEnfants;
+        this.statut = statut;
+        this.montantTotal = montantTotal;
+        this.acompte = acompte;
+        this.commentaires = commentaires;
+        this.chambres = chambres;
     }
     
     public int getId() { return id; }

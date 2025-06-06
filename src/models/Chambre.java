@@ -9,7 +9,6 @@ public class Chambre {
     private String numero;
     private int etage;
     private int typeChambreId;
-    private TypeChambre typeChambre;
     private StatutChambre statut;
     private String description;
     private LocalDateTime createdAt;
@@ -19,11 +18,14 @@ public class Chambre {
         this.statut = StatutChambre.DISPONIBLE;
     }
     
-    public Chambre(String numero, int etage, int typeChambreId) {
-        this();
+
+    public Chambre(int id, String numero, int etage, int typeChambreId,  StatutChambre statut, String description) {
+        this.id = id;
         this.numero = numero;
         this.etage = etage;
         this.typeChambreId = typeChambreId;
+        this.statut = statut;
+        this.description = description;
     }
     
     public int getId() { return id; }
@@ -37,9 +39,6 @@ public class Chambre {
     
     public int getTypeChambreId() { return typeChambreId; }
     public void setTypeChambreId(int typeChambreId) { this.typeChambreId = typeChambreId; }
-    
-    public TypeChambre getTypeChambre() { return typeChambre; }
-    public void setTypeChambre(TypeChambre typeChambre) { this.typeChambre = typeChambre; }
     
     public StatutChambre getStatut() { return statut; }
     public void setStatut(StatutChambre statut) { this.statut = statut; }

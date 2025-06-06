@@ -18,13 +18,14 @@ public class Service {
     public Service() {
         this.disponible = true;
     }
-    
-    public Service(String nom, String description, BigDecimal prix, CategorieService categorie) {
+
+    public Service(String nom, String description, BigDecimal prix, CategorieService categorie, boolean disponible) {
         this();
         this.nom = nom;
         this.description = description;
         this.prix = prix;
         this.categorie = categorie;
+        this.disponible = disponible;
     }
     
     public int getId() { return id; }

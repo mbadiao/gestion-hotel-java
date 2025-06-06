@@ -12,10 +12,11 @@ public class ReservationChambre {
     private LocalDateTime createdAt;
     
     public ReservationChambre() {}
-    
-    public ReservationChambre(int reservationId, int chambreId, BigDecimal prixNuit) {
+
+    public ReservationChambre(int reservationId, int chambreId, Chambre chambre, BigDecimal prixNuit) {
         this.reservationId = reservationId;
         this.chambreId = chambreId;
+        this.chambre = chambre;
         this.prixNuit = prixNuit;
     }
     

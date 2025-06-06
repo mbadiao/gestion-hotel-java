@@ -3,6 +3,7 @@ package models;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import enums.Enums.TypeClient;
 
@@ -24,12 +25,21 @@ public class Client {
         this.typeClient = TypeClient.INDIVIDUEL;
     }
     
-    public Client(int i, String nom, String prenom, String email, String telephone, String string, Date date, String string2, String string3, String string4) {
+    public Client(int i, String nom, String prenom, String email, String telephone, String adresse, Date dateNaissance, String nationalite, String numeroPasseport, String typeClient) {
         this();
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.telephone = telephone;
+        this.adresse = adresse;
+        if (dateNaissance != null) {
+            this.dateNaissance = dateNaissance.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        }
+        this.nationalite = nationalite;
+        this.numeroPasseport = numeroPasseport;
+        if (typeClient != null) {
+            this.typeClient = TypeClient.valueOf(typeClient.toUpperCase());
+        }
     }
     
     public int getId() { return id; }

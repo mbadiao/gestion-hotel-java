@@ -13,12 +13,12 @@ public class ClientDAO {
         conn = DatabaseService.getConnection();
     }
 
-    public List<Client> getAllClients() {
+    public List<Client> getAllClients() throws Exception, ClassNotFoundException  {
         List<Client> clients = new ArrayList<>();
         String sql = "SELECT * FROM client";
 
-        try (PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Client c = new Client(
                     rs.getInt("id"),
@@ -34,17 +34,15 @@ public class ClientDAO {
                 );
                 clients.add(c);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+ 
         return clients;
     }
 
-    public Client getClientById(int id) {
+    public Client getClientById(int id) throws Exception, ClassNotFoundException  {
         String sql = "SELECT * FROM client WHERE id = ?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return new Client(
                     rs.getInt("id"),
@@ -59,15 +57,13 @@ public class ClientDAO {
                     rs.getString("type_client")
                 );
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+       
         return null;
     }
 
-    public boolean addClient(Client c) {
+    public boolean addClient(Client c) throws Exception, ClassNotFoundException  {
         String sql = "INSERT INTO client (nom, prenom, email, telephone, adresse, date_naissance, nationalite, numero_passeport, type_client) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, c.getNom());
             ps.setString(2, c.getPrenom());
             ps.setString(3, c.getEmail());
@@ -79,15 +75,11 @@ public class ClientDAO {
             ps.setString(8, c.getNumeroPasseport());
             ps.setString(9, c.getTypeClient().name());
             return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 
-    public boolean updateClient(Client c) {
+    public boolean updateClient(Client c) throws Exception, ClassNotFoundException {
         String sql = "UPDATE client SET nom=?, prenom=?, email=?, telephone=?, adresse=?, date_naissance=?, nationalite=?, numero_passeport=?, type_client=? WHERE id=?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, c.getNom());
             ps.setString(2, c.getPrenom());
             ps.setString(3, c.getEmail());
@@ -100,21 +92,13 @@ public class ClientDAO {
             ps.setString(9, c.getTypeClient().name());
             ps.setInt(10, c.getId());
             return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 
-    public boolean deleteClient(int id) {
+    public boolean deleteClient(int id) throws Exception, ClassNotFoundException  {
         String sql = "DELETE FROM client WHERE id = ?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, id);
+        return ps.executeUpdate() > 0;
     }
 }
 
