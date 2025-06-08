@@ -63,6 +63,17 @@ public class UtilisateurDAO {
         return DatabaseService.executeUpdate(query, id);
     }
 
+    public static Utilisateur findByEmailAndPassword(String email, String motDePasse) throws SQLException, ClassNotFoundException {
+    String query = "SELECT * FROM utilisateur WHERE email = ? AND mot_de_passe = ?";
+    ResultSet rs = DatabaseService.executeQuery(query, email, motDePasse);
+
+    if (rs.next()) {
+        return mapResultSetToUtilisateur(rs);
+    }
+    return null;
+}
+
+
     private static Utilisateur mapResultSetToUtilisateur(ResultSet rs) throws SQLException {
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setId(rs.getInt("id"));

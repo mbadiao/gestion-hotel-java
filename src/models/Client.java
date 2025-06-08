@@ -33,14 +33,10 @@ public class Client {
         this.email = email;
         this.telephone = telephone;
         this.adresse = adresse;
-        if (dateNaissance != null) {
-            this.dateNaissance = dateNaissance.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        }
+        this.dateNaissance = dateNaissance.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         this.nationalite = nationalite;
         this.numeroPasseport = numeroPasseport;
-        if (typeClient != null) {
-            this.typeClient = TypeClient.valueOf(typeClient.toUpperCase());
-        }
+        this.typeClient = TypeClient.valueOf(typeClient.toUpperCase());
     }
     
     public int getId() { return id; }
