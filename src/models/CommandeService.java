@@ -32,85 +32,45 @@ public class CommandeService {
     }
 
 
-    public int getId() {
-        return id;
-    }
+    public int getId() {  return id; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setId(int id) {  this.id = id; }
 
-    public int getReservationId() {
-        return reservationId;
-    }
+    public int getReservationId() {  return reservationId; }
 
-    public void setReservationId(int reservationId) {
-        this.reservationId = reservationId;
-    }
+    public void setReservationId(int reservationId) {  this.reservationId = reservationId; }
 
-    public int getServiceId() {
-        return serviceId;
-    }
+    public int getServiceId() {  return serviceId; }
 
-    public void setServiceId(int serviceId) {
-        this.serviceId = serviceId;
-    }
+    public void setServiceId(int serviceId) {  this.serviceId = serviceId; }
 
-    public int getQuantite() {
-        return quantite;
-    }
+    public int getQuantite() {  return quantite; }
 
-    public void setQuantite(int quantite) {
-        this.quantite = quantite;
-    }
+    public void setQuantite(int quantite) {  this.quantite = quantite; }
 
-    public double getPrixUnitaire() {
-        return prixUnitaire;
-    }
+    public double getPrixUnitaire() {  return prixUnitaire; }
 
-    public void setPrixUnitaire(double prixUnitaire) {
-        this.prixUnitaire = prixUnitaire;
-    }
+    public void setPrixUnitaire(double prixUnitaire) {  this.prixUnitaire = prixUnitaire; }
 
-    public double getMontantTotal() {
-        return montantTotal;
-    }
+    public double getMontantTotal() {  return montantTotal; }
 
-    public void setMontantTotal(double montantTotal) {
-        this.montantTotal = montantTotal;
-    }
+    public void setMontantTotal(double montantTotal) {  this.montantTotal = montantTotal; }
 
-    public StatutCommande getStatut() {
-        return statut;
-    }
+    public StatutCommande getStatut() {  return statut; }
 
-    public void setStatut(StatutCommande statut) {
-        this.statut = statut;
-    }
+    public void setStatut(StatutCommande statut) {  this.statut = statut; }
 
-    public LocalDateTime getDateCommande() {
-        return dateCommande;
-    }
+    public LocalDateTime getDateCommande() {  return dateCommande; }
 
-    public void setDateCommande(LocalDateTime dateCommande) {
-        this.dateCommande = dateCommande;
-    }
+    public void setDateCommande(LocalDateTime dateCommande) {  this.dateCommande = dateCommande; }
 
-    public LocalDateTime getDateLivraison() {
-        return dateLivraison;
-    }
+    public LocalDateTime getDateLivraison() {  return dateLivraison; }
 
-    public void setDateLivraison(LocalDateTime dateLivraison) {
-        this.dateLivraison = dateLivraison;
-    }
+    public void setDateLivraison(LocalDateTime dateLivraison) {  this.dateLivraison = dateLivraison; }
 
-    public String getCommentaires() {
-        return commentaires;
-    }
+    public String getCommentaires() {  return commentaires; }
 
-    public void setCommentaires(String commentaires) {
-        this.commentaires = commentaires;
-    }
+    public void setCommentaires(String commentaires) {  this.commentaires = commentaires; }
 
     
 }

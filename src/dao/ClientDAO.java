@@ -1,104 +1,88 @@
 package dao;
 
-import java.sql.*;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.util.*;
+import enums.Enums.TypeClient;
 import models.Client;
 
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
 public class ClientDAO {
-    private Connection conn;
 
-    public ClientDAO()  throws SQLException, ClassNotFoundException {
-        conn = DatabaseService.getConnection();
-    }
+    public Client findById(int id) throws SQLException, ClassNotFoundException {
+        String query = "SELECT * FROM client WHERE id = ?";
+        ResultSet rs = DatabaseService.executeQuery(query, id);
 
-    public List<Client> getAllClients() throws Exception, ClassNotFoundException  {
-        List<Client> clients = new ArrayList<>();
-        String sql = "SELECT * FROM client";
-
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Client c = new Client(
-                    rs.getInt("id"),
-                    rs.getString("nom"),
-                    rs.getString("prenom"),
-                    rs.getString("email"),
-                    rs.getString("telephone"),
-                    rs.getString("adresse"),
-                    rs.getDate("date_naissance"),
-                    rs.getString("nationalite"),
-                    rs.getString("numero_passeport"),
-                    rs.getString("type_client")
-                );
-                clients.add(c);
-            }
- 
-        return clients;
-    }
-
-    public Client getClientById(int id) throws Exception, ClassNotFoundException  {
-        String sql = "SELECT * FROM client WHERE id = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setInt(1, id);
-        ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return new Client(
-                    rs.getInt("id"),
-                    rs.getString("nom"),
-                    rs.getString("prenom"),
-                    rs.getString("email"),
-                    rs.getString("telephone"),
-                    rs.getString("adresse"),
-                    rs.getDate("date_naissance"),
-                    rs.getString("nationalite"),
-                    rs.getString("numero_passeport"),
-                    rs.getString("type_client")
-                );
-            }
-       
+        if (rs.next()) {
+            return mapResultSetToClient(rs);
+        }
         return null;
     }
 
-    public boolean addClient(Client c) throws Exception, ClassNotFoundException  {
-        String sql = "INSERT INTO client (nom, prenom, email, telephone, adresse, date_naissance, nationalite, numero_passeport, type_client) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, c.getNom());
-            ps.setString(2, c.getPrenom());
-            ps.setString(3, c.getEmail());
-            ps.setString(4, c.getTelephone());
-            ps.setString(5, c.getAdresse());
-            LocalDate naissance = c.getDateNaissance();
-            ps.setDate(6, Date.valueOf(naissance));
-            ps.setString(7, c.getNationalite());
-            ps.setString(8, c.getNumeroPasseport());
-            ps.setString(9, c.getTypeClient().name());
-            return ps.executeUpdate() > 0;
+    public List<Client> findAll() throws SQLException, ClassNotFoundException {
+        String query = "SELECT * FROM client";
+        ResultSet rs = DatabaseService.executeQuery(query);
+
+        List<Client> clients = new ArrayList<>();
+        while (rs.next()) {
+            clients.add(mapResultSetToClient(rs));
+        }
+        return clients;
     }
 
-    public boolean updateClient(Client c) throws Exception, ClassNotFoundException {
-        String sql = "UPDATE client SET nom=?, prenom=?, email=?, telephone=?, adresse=?, date_naissance=?, nationalite=?, numero_passeport=?, type_client=? WHERE id=?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, c.getNom());
-            ps.setString(2, c.getPrenom());
-            ps.setString(3, c.getEmail());
-            ps.setString(4, c.getTelephone());
-            ps.setString(5, c.getAdresse());
-            LocalDate naissance = c.getDateNaissance();
-            ps.setDate(6, Date.valueOf(naissance));
-            ps.setString(7, c.getNationalite());
-            ps.setString(8, c.getNumeroPasseport());
-            ps.setString(9, c.getTypeClient().name());
-            ps.setInt(10, c.getId());
-            return ps.executeUpdate() > 0;
+    public long insert(Client client) throws SQLException, ClassNotFoundException {
+        String query = "INSERT INTO client (nom, prenom, email, telephone, adresse, date_naissance, nationalite, numero_passeport, type_client, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        return DatabaseService.executeInsertWithGeneratedKey(query,
+                client.getNom(),
+                client.getPrenom(),
+                client.getEmail(),
+                client.getTelephone(),
+                client.getAdresse(),
+                client.getDateNaissance(),
+                client.getNationalite(),
+                client.getNumeroPasseport(),
+                client.getTypeClient().name(),
+                client.getCreatedAt(),
+                client.getUpdatedAt()
+        );
     }
 
-    public boolean deleteClient(int id) throws Exception, ClassNotFoundException  {
-        String sql = "DELETE FROM client WHERE id = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setInt(1, id);
-        return ps.executeUpdate() > 0;
+    public int update(Client client) throws SQLException, ClassNotFoundException {
+        String query = "UPDATE client SET nom = ?, prenom = ?, email = ?, telephone = ?, adresse = ?, date_naissance = ?, nationalite = ?, numero_passeport = ?, type_client = ?, updated_at = ? WHERE id = ?";
+        return DatabaseService.executeUpdate(query,
+                client.getNom(),
+                client.getPrenom(),
+                client.getEmail(),
+                client.getTelephone(),
+                client.getAdresse(),
+                client.getDateNaissance(),
+                client.getNationalite(),
+                client.getNumeroPasseport(),
+                client.getTypeClient().name(),
+                client.getUpdatedAt(),
+                client.getId()
+        );
+    }
+
+    public int delete(int id) throws SQLException, ClassNotFoundException {
+        String query = "DELETE FROM client WHERE id = ?";
+        return DatabaseService.executeUpdate(query, id);
+    }
+
+    private Client mapResultSetToClient(ResultSet rs) throws SQLException {
+        Client client = new Client();
+        client.setId(rs.getInt("id"));
+        client.setNom(rs.getString("nom"));
+        client.setPrenom(rs.getString("prenom"));
+        client.setEmail(rs.getString("email"));
+        client.setTelephone(rs.getString("telephone"));
+        client.setAdresse(rs.getString("adresse"));
+        client.setDateNaissance(rs.getDate("date_naissance").toLocalDate());
+        client.setNationalite(rs.getString("nationalite"));
+        client.setNumeroPasseport(rs.getString("numero_passeport"));
+        client.setTypeClient(TypeClient.valueOf(rs.getString("type_client")));
+        client.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+        client.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
+        return client;
     }
 }
-

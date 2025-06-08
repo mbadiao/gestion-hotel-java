@@ -28,77 +28,40 @@ public class Utilisateur {
         this.updatedAt = updatedAt;
     }
 
-    public int getId() {
-        return id;
-    }
+    public int getId() {  return id; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setId(int id) {  this.id = id; }
 
-    public String getEmail() {
-        return email;
-    }
+    public String getEmail() {  return email; }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public void setEmail(String email) {  this.email = email; }
 
-    public String getMotDePasse() {
-        return motDePasse;
-    }
+    public String getMotDePasse() {  return motDePasse; }
 
-    public void setMotDePasse(String motDePasse) {
-        this.motDePasse = motDePasse;
-    }
+    public void setMotDePasse(String motDePasse) {  this.motDePasse = motDePasse; }
 
-    public String getRole() {
-        return role;
-    }
+    public String getRole() {  return role; }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
+    public void setRole(String role) {  this.role = role; }
 
-    public Integer getClientId() {
-        return clientId;
-    }
+    public Integer getClientId() {  return clientId; }
 
-    public void setClientId(Integer clientId) {
-        this.clientId = clientId;
-    }
+    public void setClientId(Integer clientId) {  this.clientId = clientId; }
 
-    public Integer getEmployeId() {
-        return employeId;
-    }
+    public Integer getEmployeId() {  return employeId; }
 
-    public void setEmployeId(Integer employeId) {
-        this.employeId = employeId;
-    }
+    public void setEmployeId(Integer employeId) {  this.employeId = employeId; }
 
-    public boolean isActif() {
-        return actif;
-    }
+    public boolean isActif() {  return actif; }
 
-    public void setActif(boolean actif) {
-        this.actif = actif;
-    }
+    public void setActif(boolean actif) {  this.actif = actif; }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+    public LocalDateTime getCreatedAt() {  return createdAt; }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+    public void setCreatedAt(LocalDateTime createdAt) {  this.createdAt = createdAt; }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
+    public LocalDateTime getUpdatedAt() {  return updatedAt; }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+    public void setUpdatedAt(LocalDateTime updatedAt) {  this.updatedAt = updatedAt; }
 
-    
 }

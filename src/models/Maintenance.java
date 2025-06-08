@@ -43,117 +43,61 @@ public class Maintenance {
 
     
 
-    public int getId() {
-        return id;
-    }
+    public int getId() {   return id; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setId(int id) {   this.id = id; }
 
-    public int getChambreId() {
-        return chambreId;
-    }
+    public int getChambreId() {   return chambreId; }
 
-    public void setChambreId(int chambreId) {
-        this.chambreId = chambreId;
-    }
+    public void setChambreId(int chambreId) {   this.chambreId = chambreId; }
 
-    public Integer getEmployeId() {
-        return employeId;
-    }
+    public Integer getEmployeId() {   return employeId; }
 
-    public void setEmployeId(Integer employeId) {
-        this.employeId = employeId;
-    }
+    public void setEmployeId(Integer employeId) {   this.employeId = employeId; }
 
-    public TypeMaintenance getTypeMaintenance() {
-        return typeMaintenance;
-    }
+    public TypeMaintenance getTypeMaintenance() {   return typeMaintenance; }
 
-    public void setTypeMaintenance(TypeMaintenance typeMaintenance) {
-        this.typeMaintenance = typeMaintenance;
-    }
+    public void setTypeMaintenance(TypeMaintenance typeMaintenance) {   this.typeMaintenance = typeMaintenance; }
 
-    public String getDescription() {
-        return description;
-    }
+    public String getDescription() {   return description; }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    public void setDescription(String description) {   this.description = description; }
 
-    public PrioriteMaintenance getPriorite() {
-        return priorite;
-    }
+    public PrioriteMaintenance getPriorite() {   return priorite; }
 
-    public void setPriorite(PrioriteMaintenance priorite) {
-        this.priorite = priorite;
-    }
+    public void setPriorite(PrioriteMaintenance priorite) {   this.priorite = priorite; }
 
-    public StatutMaintenance getStatut() {
-        return statut;
-    }
+    public StatutMaintenance getStatut() {   return statut; }
 
-    public void setStatut(StatutMaintenance statut) {
-        this.statut = statut;
-    }
+    public void setStatut(StatutMaintenance statut) {   this.statut = statut; }
 
-    public LocalDateTime getDatePlanifiee() {
-        return datePlanifiee;
-    }
+    public LocalDateTime getDatePlanifiee() {   return datePlanifiee; }
 
-    public void setDatePlanifiee(LocalDateTime datePlanifiee) {
-        this.datePlanifiee = datePlanifiee;
-    }
+    public void setDatePlanifiee(LocalDateTime datePlanifiee) {   this.datePlanifiee = datePlanifiee; }
 
-    public LocalDateTime getDateDebut() {
-        return dateDebut;
-    }
+    public LocalDateTime getDateDebut() {   return dateDebut; }
 
-    public void setDateDebut(LocalDateTime dateDebut) {
-        this.dateDebut = dateDebut;
-    }
+    public void setDateDebut(LocalDateTime dateDebut) {   this.dateDebut = dateDebut; }
 
-    public LocalDateTime getDateFin() {
-        return dateFin;
-    }
+    public LocalDateTime getDateFin() {   return dateFin; }
 
-    public void setDateFin(LocalDateTime dateFin) {
-        this.dateFin = dateFin;
-    }
+    public void setDateFin(LocalDateTime dateFin) {   this.dateFin = dateFin; }
 
-    public double getCout() {
-        return cout;
-    }
+    public double getCout() {   return cout; }
 
-    public void setCout(double cout) {
-        this.cout = cout;
-    }
+    public void setCout(double cout) {   this.cout = cout; }
 
-    public String getCommentaires() {
-        return commentaires;
-    }
+    public String getCommentaires() {   return commentaires; }
 
-    public void setCommentaires(String commentaires) {
-        this.commentaires = commentaires;
-    }
+    public void setCommentaires(String commentaires) {   this.commentaires = commentaires; }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+    public LocalDateTime getCreatedAt() {   return createdAt; }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+    public void setCreatedAt(LocalDateTime createdAt) {   this.createdAt = createdAt; }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
+    public LocalDateTime getUpdatedAt() {   return updatedAt; }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+    public void setUpdatedAt(LocalDateTime updatedAt) {   this.updatedAt = updatedAt; }
 
     
 }

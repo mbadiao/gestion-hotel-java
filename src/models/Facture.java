@@ -34,85 +34,44 @@ public class Facture {
 
     
 
-    public int getId() {
-        return id;
-    }
+    public int getId() {    return id; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setId(int id) {    this.id = id; }
 
-    public int getReservationId() {
-        return reservationId;
-    }
+    public int getReservationId() {    return reservationId; }
 
-    public void setReservationId(int reservationId) {
-        this.reservationId = reservationId;
-    }
+    public void setReservationId(int reservationId) {    this.reservationId = reservationId; }
 
-    public String getNumeroFacture() {
-        return numeroFacture;
-    }
+    public String getNumeroFacture() {    return numeroFacture; }
 
-    public void setNumeroFacture(String numeroFacture) {
-        this.numeroFacture = numeroFacture;
-    }
+    public void setNumeroFacture(String numeroFacture) {    this.numeroFacture = numeroFacture; }
 
-    public double getMontantTotal() {
-        return montantTotal;
-    }
+    public double getMontantTotal() {    return montantTotal; }
 
-    public void setMontantTotal(double montantTotal) {
-        this.montantTotal = montantTotal;
-    }
+    public void setMontantTotal(double montantTotal) {    this.montantTotal = montantTotal; }
 
-    public double getMontantPaye() {
-        return montantPaye;
-    }
+    public double getMontantPaye() {    return montantPaye; }
 
-    public void setMontantPaye(double montantPaye) {
-        this.montantPaye = montantPaye;
-    }
+    public void setMontantPaye(double montantPaye) {    this.montantPaye = montantPaye; }
 
-    public StatutFacture getStatut() {
-        return statut;
-    }
+    public StatutFacture getStatut() {    return statut; }
 
-    public void setStatut(StatutFacture statut) {
-        this.statut = statut;
-    }
+    public void setStatut(StatutFacture statut) {    this.statut = statut; }
 
-    public LocalDate getDateEmission() {
-        return dateEmission;
-    }
+    public LocalDate getDateEmission() {    return dateEmission; }
 
-    public void setDateEmission(LocalDate dateEmission) {
-        this.dateEmission = dateEmission;
-    }
+    public void setDateEmission(LocalDate dateEmission) {    this.dateEmission = dateEmission; }
 
-    public LocalDate getDateEcheance() {
-        return dateEcheance;
-    }
+    public LocalDate getDateEcheance() {    return dateEcheance; }
 
-    public void setDateEcheance(LocalDate dateEcheance) {
-        this.dateEcheance = dateEcheance;
-    }
+    public void setDateEcheance(LocalDate dateEcheance) {    this.dateEcheance = dateEcheance; }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+    public LocalDateTime getCreatedAt() {    return createdAt; }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+    public void setCreatedAt(LocalDateTime createdAt) {    this.createdAt = createdAt; }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
+    public LocalDateTime getUpdatedAt() {    return updatedAt; }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+    public void setUpdatedAt(LocalDateTime updatedAt) {    this.updatedAt = updatedAt; }
 
-    
 }

@@ -22,45 +22,25 @@ public class EvenementParticipant {
 
     
 
-    public int getId() {
-        return id;
-    }
+    public int getId() {  return id; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setId(int id) {  this.id = id; }
 
-    public int getEvenementId() {
-        return evenementId;
-    }
+    public int getEvenementId() {  return evenementId; }
 
-    public void setEvenementId(int evenementId) {
-        this.evenementId = evenementId;
-    }
+    public void setEvenementId(int evenementId) {  this.evenementId = evenementId; }
 
-    public int getClientId() {
-        return clientId;
-    }
+    public int getClientId() {  return clientId; }
 
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
-    }
+    public void setClientId(int clientId) {  this.clientId = clientId; }
 
-    public LocalDateTime getDateInscription() {
-        return dateInscription;
-    }
+    public LocalDateTime getDateInscription() {  return dateInscription; }
 
-    public void setDateInscription(LocalDateTime dateInscription) {
-        this.dateInscription = dateInscription;
-    }
+    public void setDateInscription(LocalDateTime dateInscription) {  this.dateInscription = dateInscription; }
 
-    public String getStatut() {
-        return statut;
-    }
+    public String getStatut() {  return statut; }
 
-    public void setStatut(String statut) {
-        this.statut = statut;
-    }
+    public void setStatut(String statut) {  this.statut = statut; }
     
 
 }

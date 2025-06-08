@@ -37,101 +37,53 @@ public class Evenement {
 
     
 
-    public int getId() {
-        return id;
-    }
+    public int getId() {    return id; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setId(int id) {    this.id = id; }
 
-    public String getNom() {
-        return nom;
-    }
+    public String getNom() {    return nom; }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
+    public void setNom(String nom) {    this.nom = nom; }
 
-    public String getDescription() {
-        return description;
-    }
+    public String getDescription() {    return description; }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    public void setDescription(String description) {    this.description = description; }
 
-    public LocalDateTime getDateDebut() {
-        return dateDebut;
-    }
+    public LocalDateTime getDateDebut() {    return dateDebut; }
 
-    public void setDateDebut(LocalDateTime dateDebut) {
-        this.dateDebut = dateDebut;
-    }
+    public void setDateDebut(LocalDateTime dateDebut) {    this.dateDebut = dateDebut; }
 
-    public LocalDateTime getDateFin() {
-        return dateFin;
-    }
+    public LocalDateTime getDateFin() {    return dateFin; }
 
-    public void setDateFin(LocalDateTime dateFin) {
-        this.dateFin = dateFin;
-    }
+    public void setDateFin(LocalDateTime dateFin) {    this.dateFin = dateFin; }
 
-    public String getLieu() {
-        return lieu;
-    }
+    public String getLieu() {    return lieu; }
 
-    public void setLieu(String lieu) {
-        this.lieu = lieu;
-    }
+    public void setLieu(String lieu) {    this.lieu = lieu; }
 
-    public int getCapaciteMax() {
-        return capaciteMax;
-    }
+    public int getCapaciteMax() {    return capaciteMax; }
 
-    public void setCapaciteMax(int capaciteMax) {
-        this.capaciteMax = capaciteMax;
-    }
+    public void setCapaciteMax(int capaciteMax) {    this.capaciteMax = capaciteMax; }
 
-    public double getPrix() {
-        return prix;
-    }
+    public double getPrix() {    return prix; }
 
-    public void setPrix(double prix) {
-        this.prix = prix;
-    }
+    public void setPrix(double prix) {    this.prix = prix; }
 
-    public int getOrganisateurId() {
-        return organisateurId;
-    }
+    public int getOrganisateurId() {    return organisateurId; }
 
-    public void setOrganisateurId(int organisateurId) {
-        this.organisateurId = organisateurId;
-    }
+    public void setOrganisateurId(int organisateurId) {    this.organisateurId = organisateurId; }
 
-    public StatutEvenement getStatut() {
-        return statut;
-    }
+    public StatutEvenement getStatut() {    return statut; }
 
-    public void setStatut(StatutEvenement statut) {
-        this.statut = statut;
-    }
+    public void setStatut(StatutEvenement statut) {    this.statut = statut; }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+    public LocalDateTime getCreatedAt() {    return createdAt; }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+    public void setCreatedAt(LocalDateTime createdAt) {    this.createdAt = createdAt; }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
+    public LocalDateTime getUpdatedAt() {    return updatedAt; }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+    public void setUpdatedAt(LocalDateTime updatedAt) {    this.updatedAt = updatedAt; }
 
     
 }
