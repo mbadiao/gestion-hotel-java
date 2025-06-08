@@ -24,10 +24,9 @@ public class Employe {
     public Employe() {
         this.statut = StatutEmploye.ACTIF;
     }
-    
 
-    public Employe(String nom, String prenom, String email, String telephone, String poste, Departement departement, BigDecimal salaire, LocalDate dateEmbauche, StatutEmploye statut) {
-        this();
+    public Employe(int id, String nom, String prenom, String email, String telephone, String poste, Departement departement, BigDecimal salaire, LocalDate dateEmbauche, StatutEmploye statut, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
@@ -37,8 +36,12 @@ public class Employe {
         this.salaire = salaire;
         this.dateEmbauche = dateEmbauche;
         this.statut = statut;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
     
+
+   
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     

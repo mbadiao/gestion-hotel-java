@@ -19,14 +19,17 @@ public class Service {
         this.disponible = true;
     }
 
-    public Service(String nom, String description, BigDecimal prix, CategorieService categorie, boolean disponible) {
-        this();
+    public Service(int id, String nom, String description, BigDecimal prix, CategorieService categorie, boolean disponible, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id;
         this.nom = nom;
         this.description = description;
         this.prix = prix;
         this.categorie = categorie;
         this.disponible = disponible;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
+
     
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }

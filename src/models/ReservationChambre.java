@@ -13,12 +13,15 @@ public class ReservationChambre {
     
     public ReservationChambre() {}
 
-    public ReservationChambre(int reservationId, int chambreId, Chambre chambre, BigDecimal prixNuit) {
+    public ReservationChambre(int id, int reservationId, int chambreId, Chambre chambre, BigDecimal prixNuit, LocalDateTime createdAt) {
+        this.id = id;
         this.reservationId = reservationId;
         this.chambreId = chambreId;
         this.chambre = chambre;
         this.prixNuit = prixNuit;
+        this.createdAt = createdAt;
     }
+
     
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }

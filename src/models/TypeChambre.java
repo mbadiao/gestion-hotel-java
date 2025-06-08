@@ -14,14 +14,19 @@ public class TypeChambre {
     private LocalDateTime updatedAt;
     
     public TypeChambre() {}
-    
-    public TypeChambre(String nom, String description, BigDecimal prixBase, int capaciteMax, String amenities) {
+
+    public TypeChambre(int id, String nom, String description, BigDecimal prixBase, int capaciteMax, String amenities, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id;
         this.nom = nom;
         this.description = description;
         this.prixBase = prixBase;
         this.capaciteMax = capaciteMax;
         this.amenities = amenities;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
+    
+   
     
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }

@@ -32,8 +32,8 @@ public class Reservation {
         this.chambres = new ArrayList<>();
     }
 
-    public Reservation(int clientId, Client client, LocalDate dateCheckin, LocalDate dateCheckout, int nombreAdultes, int nombreEnfants, StatutReservation statut, BigDecimal montantTotal, BigDecimal acompte, String commentaires, List<ReservationChambre> chambres) {
-        this();
+    public Reservation(int id, int clientId, Client client, LocalDate dateCheckin, LocalDate dateCheckout, int nombreAdultes, int nombreEnfants, StatutReservation statut, BigDecimal montantTotal, BigDecimal acompte, String commentaires, LocalDateTime createdAt, LocalDateTime updatedAt, List<ReservationChambre> chambres) {
+        this.id = id;
         this.clientId = clientId;
         this.client = client;
         this.dateCheckin = dateCheckin;
@@ -44,9 +44,12 @@ public class Reservation {
         this.montantTotal = montantTotal;
         this.acompte = acompte;
         this.commentaires = commentaires;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.chambres = chambres;
     }
-    
+
+   
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     
