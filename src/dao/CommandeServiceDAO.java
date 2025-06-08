@@ -8,9 +8,9 @@ import java.util.List;
 import enums.Enums.StatutCommande;
 import models.CommandeService;
 
-class CommandeServiceDAO {
+public class CommandeServiceDAO {
 
-    public CommandeService findById(int id) throws SQLException, ClassNotFoundException {
+    public static CommandeService findById(int id) throws SQLException, ClassNotFoundException {
         String query = "SELECT * FROM commande_service WHERE id = ?";
         ResultSet rs = DatabaseService.executeQuery(query, id);
 
@@ -20,7 +20,7 @@ class CommandeServiceDAO {
         return null;
     }
 
-    public List<CommandeService> findAll() throws SQLException, ClassNotFoundException {
+    public static List<CommandeService> findAll() throws SQLException, ClassNotFoundException {
         String query = "SELECT * FROM commande_service";
         ResultSet rs = DatabaseService.executeQuery(query);
 
@@ -31,7 +31,7 @@ class CommandeServiceDAO {
         return commandes;
     }
 
-    public long insert(CommandeService commande) throws SQLException, ClassNotFoundException {
+    public static long insert(CommandeService commande) throws SQLException, ClassNotFoundException {
         String query = "INSERT INTO commande_service (reservation_id, service_id, quantite, prix_unitaire, montant_total, statut, date_commande, date_livraison, commentaires) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         return DatabaseService.executeInsertWithGeneratedKey(query,
                 commande.getReservationId(),
@@ -46,7 +46,7 @@ class CommandeServiceDAO {
         );
     }
 
-    public int update(CommandeService commande) throws SQLException, ClassNotFoundException {
+    public static int update(CommandeService commande) throws SQLException, ClassNotFoundException {
         String query = "UPDATE commande_service SET reservation_id = ?, service_id = ?, quantite = ?, prix_unitaire = ?, montant_total = ?, statut = ?, date_commande = ?, date_livraison = ?, commentaires = ? WHERE id = ?";
         return DatabaseService.executeUpdate(query,
                 commande.getReservationId(),
@@ -62,12 +62,12 @@ class CommandeServiceDAO {
         );
     }
 
-    public int delete(int id) throws SQLException, ClassNotFoundException {
+    public static int delete(int id) throws SQLException, ClassNotFoundException {
         String query = "DELETE FROM commande_service WHERE id = ?";
         return DatabaseService.executeUpdate(query, id);
     }
 
-    private CommandeService mapResultSetToCommandeService(ResultSet rs) throws SQLException {
+    private static CommandeService mapResultSetToCommandeService(ResultSet rs) throws SQLException {
         CommandeService commande = new CommandeService();
         commande.setId(rs.getInt("id"));
         commande.setReservationId(rs.getInt("reservation_id"));

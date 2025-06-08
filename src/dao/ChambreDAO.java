@@ -8,9 +8,9 @@ import java.util.List;
 import enums.Enums.StatutChambre;
 import models.Chambre;
 
-class ChambreDAO {
+public class ChambreDAO {
 
-    public Chambre findById(int id) throws SQLException, ClassNotFoundException {
+    public static Chambre findById(int id) throws SQLException, ClassNotFoundException {
         String query = "SELECT * FROM chambre WHERE id = ?";
         ResultSet rs = DatabaseService.executeQuery(query, id);
 
@@ -20,7 +20,7 @@ class ChambreDAO {
         return null;
     }
 
-    public List<Chambre> findAll() throws SQLException, ClassNotFoundException {
+    public static List<Chambre> findAll() throws SQLException, ClassNotFoundException {
         String query = "SELECT * FROM chambre";
         ResultSet rs = DatabaseService.executeQuery(query);
 
@@ -31,7 +31,7 @@ class ChambreDAO {
         return chambres;
     }
 
-    public long insert(Chambre chambre) throws SQLException, ClassNotFoundException {
+    public static long insert(Chambre chambre) throws SQLException, ClassNotFoundException {
         String query = "INSERT INTO chambre (numero, etage, type_chambre_id, statut, description, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)";
         return DatabaseService.executeInsertWithGeneratedKey(query,
                 chambre.getNumero(),
@@ -44,7 +44,7 @@ class ChambreDAO {
         );
     }
 
-    public int update(Chambre chambre) throws SQLException, ClassNotFoundException {
+    public static int update(Chambre chambre) throws SQLException, ClassNotFoundException {
         String query = "UPDATE chambre SET numero = ?, etage = ?, type_chambre_id = ?, statut = ?, description = ?, updated_at = ? WHERE id = ?";
         return DatabaseService.executeUpdate(query,
                 chambre.getNumero(),
@@ -57,12 +57,12 @@ class ChambreDAO {
         );
     }
 
-    public int delete(int id) throws SQLException, ClassNotFoundException {
+    public static int delete(int id) throws SQLException, ClassNotFoundException {
         String query = "DELETE FROM chambre WHERE id = ?";
         return DatabaseService.executeUpdate(query, id);
     }
 
-    private Chambre mapResultSetToChambre(ResultSet rs) throws SQLException {
+    private static Chambre mapResultSetToChambre(ResultSet rs) throws SQLException {
         Chambre chambre = new Chambre();
         chambre.setId(rs.getInt("id"));
         chambre.setNumero(rs.getString("numero"));

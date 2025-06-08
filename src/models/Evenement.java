@@ -85,5 +85,4 @@ public class Evenement {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {    this.updatedAt = updatedAt; }
 
-    
 }

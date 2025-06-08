@@ -2,106 +2,107 @@ package dao;
 
 import java.sql.*;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.*;
 
-import models.Client;
+import models.Employe;
+import enums.Enums.Departement;
+import enums.Enums.StatutEmploye;
 
 public class EmployeDAO {
 
-
-    private Connection conn;
-
-    public EmployeDAO()  throws SQLException, ClassNotFoundException {
-        conn = DatabaseService.getConnection();
+    public static int create(Employe employe) throws SQLException, ClassNotFoundException {
+        String query = "INSERT INTO employe (nom, prenom, email, telephone, poste, departement, salaire, date_embauche, statut) " +
+                       "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        return (int) DatabaseService.executeInsertWithGeneratedKey(query,
+                employe.getNom(),
+                employe.getPrenom(),
+                employe.getEmail(),
+                employe.getTelephone(),
+                employe.getPoste(),
+                employe.getDepartement().name(),
+                employe.getSalaire(),
+                Date.valueOf(employe.getDateEmbauche()),
+                employe.getStatut().name()
+        );
     }
 
-    public List<Client> getAllClients() throws Exception, ClassNotFoundException  {
-        List<Client> clients = new ArrayList<>();
-        String sql = "SELECT * FROM client";
+    public static Employe findById(int id) throws SQLException, ClassNotFoundException {
+        String query = "SELECT * FROM employe WHERE id = ?";
+        ResultSet rs = DatabaseService.executeQuery(query, id);
 
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Client c = new Client(
-                    rs.getInt("id"),
-                    rs.getString("nom"),
-                    rs.getString("prenom"),
-                    rs.getString("email"),
-                    rs.getString("telephone"),
-                    rs.getString("adresse"),
-                    rs.getDate("date_naissance"),
-                    rs.getString("nationalite"),
-                    rs.getString("numero_passeport"),
-                    rs.getString("type_client")
-                );
-                clients.add(c);
-            }
- 
-        return clients;
-    }
+        if (rs.next()) {
+            return mapResultSetToEmploye(rs);
+        }
 
-    public Client getClientById(int id) throws Exception, ClassNotFoundException  {
-        String sql = "SELECT * FROM client WHERE id = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setInt(1, id);
-        ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return new Client(
-                    rs.getInt("id"),
-                    rs.getString("nom"),
-                    rs.getString("prenom"),
-                    rs.getString("email"),
-                    rs.getString("telephone"),
-                    rs.getString("adresse"),
-                    rs.getDate("date_naissance"),
-                    rs.getString("nationalite"),
-                    rs.getString("numero_passeport"),
-                    rs.getString("type_client")
-                );
-            }
-       
         return null;
     }
 
-    public boolean addClient(Client c) throws Exception, ClassNotFoundException  {
-        String sql = "INSERT INTO client (nom, prenom, email, telephone, adresse, date_naissance, nationalite, numero_passeport, type_client) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, c.getNom());
-            ps.setString(2, c.getPrenom());
-            ps.setString(3, c.getEmail());
-            ps.setString(4, c.getTelephone());
-            ps.setString(5, c.getAdresse());
-            LocalDate naissance = c.getDateNaissance();
-            ps.setDate(6, Date.valueOf(naissance));
-            ps.setString(7, c.getNationalite());
-            ps.setString(8, c.getNumeroPasseport());
-            ps.setString(9, c.getTypeClient().name());
-            return ps.executeUpdate() > 0;
+    public static List<Employe> findAll() throws SQLException, ClassNotFoundException {
+        String query = "SELECT * FROM employe ORDER BY nom ASC";
+        ResultSet rs = DatabaseService.executeQuery(query);
+
+        List<Employe> list = new ArrayList<>();
+        while (rs.next()) {
+            list.add(mapResultSetToEmploye(rs));
+        }
+
+        return list;
     }
 
-    public boolean updateClient(Client c) throws Exception, ClassNotFoundException {
-        String sql = "UPDATE client SET nom=?, prenom=?, email=?, telephone=?, adresse=?, date_naissance=?, nationalite=?, numero_passeport=?, type_client=? WHERE id=?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, c.getNom());
-            ps.setString(2, c.getPrenom());
-            ps.setString(3, c.getEmail());
-            ps.setString(4, c.getTelephone());
-            ps.setString(5, c.getAdresse());
-            LocalDate naissance = c.getDateNaissance();
-            ps.setDate(6, Date.valueOf(naissance));
-            ps.setString(7, c.getNationalite());
-            ps.setString(8, c.getNumeroPasseport());
-            ps.setString(9, c.getTypeClient().name());
-            ps.setInt(10, c.getId());
-            return ps.executeUpdate() > 0;
+    public static boolean update(Employe employe) throws SQLException, ClassNotFoundException {
+        String query = "UPDATE employe SET nom = ?, prenom = ?, email = ?, telephone = ?, poste = ?, departement = ?, salaire = ?, date_embauche = ?, statut = ? " +
+                       "WHERE id = ?";
+        int rows = DatabaseService.executeUpdate(query,
+                employe.getNom(),
+                employe.getPrenom(),
+                employe.getEmail(),
+                employe.getTelephone(),
+                employe.getPoste(),
+                employe.getDepartement().name(),
+                employe.getSalaire(),
+                Date.valueOf(employe.getDateEmbauche()),
+                employe.getStatut().name(),
+                employe.getId()
+        );
+        return rows > 0;
     }
 
-    public boolean deleteClient(int id) throws Exception, ClassNotFoundException  {
-        String sql = "DELETE FROM client WHERE id = ?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setInt(1, id);
-        return ps.executeUpdate() > 0;
+    public static boolean delete(int id) throws SQLException, ClassNotFoundException {
+        String query = "DELETE FROM employe WHERE id = ?";
+        int rows = DatabaseService.executeUpdate(query, id);
+        return rows > 0;
     }
 
+    public static List<Employe> findByStatut(StatutEmploye statut) throws SQLException, ClassNotFoundException {
+        String query = "SELECT * FROM employe WHERE statut = ?";
+        ResultSet rs = DatabaseService.executeQuery(query, statut.name());
+
+        List<Employe> list = new ArrayList<>();
+        while (rs.next()) {
+            list.add(mapResultSetToEmploye(rs));
+        }
+
+        return list;
+    }
+
+    private static Employe mapResultSetToEmploye(ResultSet rs) throws SQLException {
+        Employe emp = new Employe();
+        emp.setId(rs.getInt("id"));
+        emp.setNom(rs.getString("nom"));
+        emp.setPrenom(rs.getString("prenom"));
+        emp.setEmail(rs.getString("email"));
+        emp.setTelephone(rs.getString("telephone"));
+        emp.setPoste(rs.getString("poste"));
+        emp.setDepartement(Departement.valueOf(rs.getString("departement")));
+        emp.setSalaire(rs.getBigDecimal("salaire"));
+        emp.setDateEmbauche(rs.getDate("date_embauche").toLocalDate());
+        emp.setStatut(StatutEmploye.valueOf(rs.getString("statut")));
+        
+        Timestamp createdAt = rs.getTimestamp("created_at");
+        Timestamp updatedAt = rs.getTimestamp("updated_at");
+        if (createdAt != null) emp.setCreatedAt(createdAt.toLocalDateTime());
+        if (updatedAt != null) emp.setUpdatedAt(updatedAt.toLocalDateTime());
+
+        return emp;
+    }
 }

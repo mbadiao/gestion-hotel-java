@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ClientDAO {
 
-    public Client findById(int id) throws SQLException, ClassNotFoundException {
+    public static Client findById(int id) throws SQLException, ClassNotFoundException {
         String query = "SELECT * FROM client WHERE id = ?";
         ResultSet rs = DatabaseService.executeQuery(query, id);
 
@@ -19,7 +19,7 @@ public class ClientDAO {
         return null;
     }
 
-    public List<Client> findAll() throws SQLException, ClassNotFoundException {
+    public static List<Client> findAll() throws SQLException, ClassNotFoundException {
         String query = "SELECT * FROM client";
         ResultSet rs = DatabaseService.executeQuery(query);
 
@@ -30,7 +30,7 @@ public class ClientDAO {
         return clients;
     }
 
-    public long insert(Client client) throws SQLException, ClassNotFoundException {
+    public static long insert(Client client) throws SQLException, ClassNotFoundException {
         String query = "INSERT INTO client (nom, prenom, email, telephone, adresse, date_naissance, nationalite, numero_passeport, type_client, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         return DatabaseService.executeInsertWithGeneratedKey(query,
                 client.getNom(),
@@ -47,7 +47,7 @@ public class ClientDAO {
         );
     }
 
-    public int update(Client client) throws SQLException, ClassNotFoundException {
+    public static int update(Client client) throws SQLException, ClassNotFoundException {
         String query = "UPDATE client SET nom = ?, prenom = ?, email = ?, telephone = ?, adresse = ?, date_naissance = ?, nationalite = ?, numero_passeport = ?, type_client = ?, updated_at = ? WHERE id = ?";
         return DatabaseService.executeUpdate(query,
                 client.getNom(),
@@ -64,12 +64,12 @@ public class ClientDAO {
         );
     }
 
-    public int delete(int id) throws SQLException, ClassNotFoundException {
+    public static int delete(int id) throws SQLException, ClassNotFoundException {
         String query = "DELETE FROM client WHERE id = ?";
         return DatabaseService.executeUpdate(query, id);
     }
 
-    private Client mapResultSetToClient(ResultSet rs) throws SQLException {
+    private static Client mapResultSetToClient(ResultSet rs) throws SQLException {
         Client client = new Client();
         client.setId(rs.getInt("id"));
         client.setNom(rs.getString("nom"));
