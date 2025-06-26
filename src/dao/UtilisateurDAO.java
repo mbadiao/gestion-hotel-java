@@ -73,6 +73,25 @@ public class UtilisateurDAO {
     return null;
 }
 
+    public static boolean emailExists(String email) throws SQLException, ClassNotFoundException {
+        String query = "SELECT COUNT(*) FROM utilisateur WHERE email = ?";
+        ResultSet rs = DatabaseService.executeQuery(query, email);
+        
+        if (rs.next()) {
+            return rs.getInt(1) > 0;
+        }
+        return false;
+    }
+
+    public static Utilisateur findByEmail(String email) throws SQLException, ClassNotFoundException {
+        String query = "SELECT * FROM utilisateur WHERE email = ?";
+        ResultSet rs = DatabaseService.executeQuery(query, email);
+
+        if (rs.next()) {
+            return mapResultSetToUtilisateur(rs);
+        }
+        return null;
+    }
 
     private static Utilisateur mapResultSetToUtilisateur(ResultSet rs) throws SQLException {
         Utilisateur utilisateur = new Utilisateur();

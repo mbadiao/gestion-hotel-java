@@ -4,6 +4,16 @@
  */
 package ui;
 
+import dao.UtilisateurDAO;
+import dao.EmployeDAO;
+import models.Utilisateur;
+import models.Employe;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
 /**
  *
  * @author diaom
@@ -15,6 +25,23 @@ public class ConnexionForm extends javax.swing.JFrame {
      */
     public ConnexionForm() {
         initComponents();
+        setupForm();
+    }
+
+    private void setupForm() {
+        // Set window title
+        setTitle("Connexion - Gestion Hotel");
+        
+        // Center the window
+        setLocationRelativeTo(null);
+        
+        // Add action listener for register button
+        btnRegister.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                openInscriptionForm();
+            }
+        });
     }
 
     /**
@@ -26,21 +53,341 @@ public class ConnexionForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel3 = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        txtPassword = new javax.swing.JTextField();
+        btnLogin = new javax.swing.JButton();
+        btnRegister = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel3.setText("Email ");
+
+        jLabel1.setText("Mot de pass");
+
+        btnLogin.setText("login");
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
+
+        btnRegister.setText("register");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(139, 139, 139)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnLogin)
+                        .addGap(111, 111, 111)
+                        .addComponent(btnRegister))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addGap(83, 83, 83)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtEmail)
+                            .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE))))
+                .addContainerGap(323, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(72, 72, 72)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(134, 134, 134)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnLogin)
+                    .addComponent(btnRegister))
+                .addContainerGap(309, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        performLogin();
+    }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void performLogin() {
+        String email = txtEmail.getText().trim();
+        String password = txtPassword.getText().trim();
+        
+        System.out.println("🔍 Attempting login with email: " + email);
+        
+        // Validation
+        if (email.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, 
+                "Veuillez remplir tous les champs", 
+                "Erreur de validation", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // Email validation
+        if (!isValidEmail(email)) {
+            JOptionPane.showMessageDialog(this, 
+                "Format d'email invalide", 
+                "Erreur de validation", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        try {
+            System.out.println("🔍 Testing database connection...");
+            // Test database connection first
+            dao.DatabaseService.getConnection();
+            System.out.println("✅ Database connection successful");
+            
+            System.out.println("🔍 Attempting to authenticate user...");
+            // Attempt to authenticate user
+            Utilisateur utilisateur = UtilisateurDAO.findByEmailAndPassword(email, password);
+            
+            if (utilisateur != null) {
+                System.out.println("✅ User found: " + utilisateur.getEmail() + " (Role: " + utilisateur.getRole() + ", Active: " + utilisateur.isActif() + ")");
+                
+                if (utilisateur.isActif()) {
+                    // Login successful - redirect based on role
+                    System.out.println("✅ Login successful, redirecting to dashboard...");
+                    redirectToDashboard(utilisateur);
+                    this.dispose(); // Close login form
+                } else {
+                    System.out.println("❌ User account is not active");
+                    JOptionPane.showMessageDialog(this, 
+                        "Compte utilisateur désactivé", 
+                        "Échec de connexion", 
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                System.out.println("❌ User not found or invalid credentials");
+                JOptionPane.showMessageDialog(this, 
+                    "Email ou mot de passe incorrect", 
+                    "Échec de connexion", 
+                    JOptionPane.ERROR_MESSAGE);
+            }
+            
+        } catch (SQLException | ClassNotFoundException e) {
+            System.err.println("❌ Database error: " + e.getMessage());
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, 
+                "Erreur de connexion à la base de données: " + e.getMessage(), 
+                "Erreur système", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void redirectToDashboard(Utilisateur utilisateur) {
+        String role = utilisateur.getRole().toLowerCase();
+        
+        switch (role) {
+            case "admin":
+                openAdminDashboard();
+                break;
+            case "client":
+                openClientDashboard(utilisateur.getClientId());
+                break;
+            case "employe":
+                openEmployeDashboard(utilisateur.getEmployeId());
+                break;
+            default:
+                JOptionPane.showMessageDialog(this, 
+                    "Rôle non reconnu: " + role, 
+                    "Erreur", 
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void openAdminDashboard() {
+        try {
+            ui.admin.AdminDashboard adminDashboard = new ui.admin.AdminDashboard();
+            adminDashboard.setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Erreur lors de l'ouverture du tableau de bord admin: " + e.getMessage(), 
+                "Erreur", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void openClientDashboard(Integer clientId) {
+        try {
+            // For now, show a message since ClientDashboard might not be fully implemented
+            JOptionPane.showMessageDialog(this, 
+                "Tableau de bord client en cours de développement", 
+                "Information", 
+                JOptionPane.INFORMATION_MESSAGE);
+            
+            // You can uncomment this when ClientDashboard is fully implemented
+            // ui.client.ClientDashboard clientDashboard = new ui.client.ClientDashboard();
+            // clientDashboard.setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Erreur lors de l'ouverture du tableau de bord client: " + e.getMessage(), 
+                "Erreur", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void openEmployeDashboard(Integer employeId) {
+        try {
+            if (employeId == null) {
+                JOptionPane.showMessageDialog(this, 
+                    "ID employé manquant", 
+                    "Erreur", 
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            // Get employee details to determine department
+            Employe employe = EmployeDAO.findById(employeId);
+            if (employe == null) {
+                JOptionPane.showMessageDialog(this, 
+                    "Employé non trouvé", 
+                    "Erreur", 
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            System.out.println("🔍 Employee department: " + employe.getDepartement());
+            
+            // Redirect based on department
+            switch (employe.getDepartement().toString().toLowerCase()) {
+                case "reception":
+                    openReceptionnisteDashboard();
+                    break;
+                case "restauration":
+                case "menage":
+                    openServiceDashboard();
+                    break;
+                case "maintenance":
+                    openMaintenanceDashboard();
+                    break;
+                case "direction":
+                    openAdminDashboard();
+                    break;
+                case "securite":
+                    // For security, we can use reception dashboard or create a specific one
+                    openReceptionnisteDashboard();
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(this, 
+                        "Département non reconnu: " + employe.getDepartement(), 
+                        "Erreur", 
+                        JOptionPane.ERROR_MESSAGE);
+            }
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Erreur lors de l'ouverture du tableau de bord employé: " + e.getMessage(), 
+                "Erreur", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void openReceptionnisteDashboard() {
+        try {
+            ui.receptionniste.ReceptionnisteDashboard receptionnisteDashboard = new ui.receptionniste.ReceptionnisteDashboard();
+            receptionnisteDashboard.setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Erreur lors de l'ouverture du tableau de bord réceptionniste: " + e.getMessage(), 
+                "Erreur", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void openServiceDashboard() {
+        try {
+            ui.service.ServiceDashboard serviceDashboard = new ui.service.ServiceDashboard();
+            serviceDashboard.setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Erreur lors de l'ouverture du tableau de bord service: " + e.getMessage(), 
+                "Erreur", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void openMaintenanceDashboard() {
+        try {
+            ui.maintenance.MaintenanceDashboard maintenanceDashboard = new ui.maintenance.MaintenanceDashboard();
+            maintenanceDashboard.setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Erreur lors de l'ouverture du tableau de bord maintenance: " + e.getMessage(), 
+                "Erreur", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void openInscriptionForm() {
+        try {
+            InscriptionForm inscriptionForm = new InscriptionForm();
+            inscriptionForm.setVisible(true);
+            this.dispose(); // Close login form
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Erreur lors de l'ouverture du formulaire d'inscription: " + e.getMessage(), 
+                "Erreur", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private boolean isValidEmail(String email) {
+        // Simple email validation
+        return email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
+    }
+    
+    // Test method to verify database connection and authentication
+    public static void testDatabaseConnection() {
+        try {
+            // Test database connection
+            dao.DatabaseService.getConnection();
+            System.out.println("✅ Database connection successful");
+            
+            // Test if we can query users
+            java.util.List<models.Utilisateur> users = dao.UtilisateurDAO.findAll();
+            System.out.println("✅ Found " + users.size() + " users in database");
+            
+            // Test specific user
+            System.out.println("🔍 Testing specific user: momo@gmail.com");
+            models.Utilisateur testUser = dao.UtilisateurDAO.findByEmailAndPassword("momo@gmail.com", "momo123");
+            if (testUser != null) {
+                System.out.println("✅ Test user found: " + testUser.getEmail() + " (Role: " + testUser.getRole() + ", Active: " + testUser.isActif() + ")");
+            } else {
+                System.out.println("❌ Test user not found or invalid credentials");
+                
+                // Let's check if the user exists at all
+                System.out.println("🔍 Checking if user exists in database...");
+                models.Utilisateur userByEmail = dao.UtilisateurDAO.findByEmail("momo@gmail.com");
+                if (userByEmail != null) {
+                    System.out.println("✅ User exists with email: " + userByEmail.getEmail());
+                    System.out.println("   Role: " + userByEmail.getRole());
+                    System.out.println("   Active: " + userByEmail.isActif());
+                    System.out.println("   Password length: " + userByEmail.getMotDePasse().length());
+                    System.out.println("   Password: " + userByEmail.getMotDePasse());
+                } else {
+                    System.out.println("❌ User does not exist in database");
+                }
+            }
+            
+        } catch (Exception e) {
+            System.err.println("❌ Database connection failed: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -72,11 +419,20 @@ public class ConnexionForm extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                // Test database connection first
+                testDatabaseConnection();
+                
                 new ConnexionForm().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLogin;
+    private javax.swing.JButton btnRegister;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtPassword;
     // End of variables declaration//GEN-END:variables
 }

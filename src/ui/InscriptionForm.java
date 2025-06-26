@@ -4,6 +4,19 @@
  */
 package ui;
 
+import dao.ClientDAO;
+import dao.UtilisateurDAO;
+import models.Client;
+import models.Utilisateur;
+import enums.Enums.TypeClient;
+import javax.swing.*;
+import java.awt.*;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 /**
  *
  * @author diaom
@@ -15,6 +28,20 @@ public class InscriptionForm extends javax.swing.JFrame {
      */
     public InscriptionForm() {
         initComponents();
+        setupForm();
+    }
+
+    private void setupForm() {
+        // Set window title and properties
+        setTitle("Inscription - Gestion Hotel");
+        setLocationRelativeTo(null);
+        
+        // Add action listeners
+        btnInscription.addActionListener(e -> performRegistration());
+        btnRetour.addActionListener(e -> returnToLogin());
+        
+        // Set default button (Enter key)
+        getRootPane().setDefaultButton(btnInscription);
     }
 
     /**
@@ -26,21 +53,381 @@ public class InscriptionForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        txtNom = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        txtPrenom = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        txtTelephone = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        txtAdresse = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        txtDateNaissance = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        txtNationalite = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        txtNumeroPasseport = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        txtConfirmPassword = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        txtMotDePasse1 = new javax.swing.JTextField();
+        btnInscription = new javax.swing.JButton();
+        btnRetour = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setText("Nom");
+
+        jLabel2.setText("Prénom");
+
+        txtPrenom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPrenomActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Email");
+
+        jLabel4.setText("Téléphone ");
+
+        jLabel5.setText("Adresse");
+
+        jLabel6.setText("Date de naissance");
+
+        jLabel7.setText("Nationalité");
+
+        jLabel8.setText("Numéro de passeport");
+
+        jLabel9.setText("Mot de passe");
+
+        jLabel10.setText("Confirmer mot de passe");
+
+        btnInscription.setText("Inscription ");
+
+        btnRetour.setText("Retour");
+
+        jLabel11.setText("🏨 INSCRIPTION HÔTEL");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(103, 103, 103)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel10)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel1)
+                                            .addComponent(jLabel2)
+                                            .addComponent(jLabel3)
+                                            .addComponent(jLabel4)
+                                            .addComponent(jLabel5))
+                                        .addGap(63, 63, 63)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtNom)
+                                            .addComponent(txtPrenom)
+                                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(4, 4, 4)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(txtTelephone)
+                                                    .addComponent(txtAdresse, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel7))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtDateNaissance)
+                                            .addComponent(txtNationalite)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel8)
+                                            .addComponent(jLabel9))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtNumeroPasseport)
+                                            .addComponent(txtMotDePasse1))))))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(114, 114, 114)
+                            .addComponent(btnInscription)
+                            .addGap(179, 179, 179)
+                            .addComponent(btnRetour))))
+                .addContainerGap(394, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtNom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtPrenom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtTelephone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txtAdresse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(txtDateNaissance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtNationalite, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8)
+                    .addComponent(txtNumeroPasseport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(txtMotDePasse1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(txtConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnInscription)
+                    .addComponent(btnRetour))
+                .addContainerGap(83, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtPrenomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrenomActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPrenomActionPerformed
+
+    private void performRegistration() {
+        // Get form data
+        String nom = txtNom.getText().trim();
+        String prenom = txtPrenom.getText().trim();
+        String email = txtEmail.getText().trim();
+        String telephone = txtTelephone.getText().trim();
+        String adresse = txtAdresse.getText().trim();
+        String dateNaissanceStr = txtDateNaissance.getText().trim();
+        String nationalite = txtNationalite.getText().trim();
+        String numeroPasseport = txtNumeroPasseport.getText().trim();
+        String motDePasse = txtMotDePasse1.getText();
+        String confirmPassword = txtConfirmPassword.getText();
+        
+        // Validation
+        if (!validateForm(nom, prenom, email, telephone, motDePasse, confirmPassword)) {
+            return;
+        }
+        
+        try {
+            // Check if email already exists
+            if (UtilisateurDAO.emailExists(email)) {
+                JOptionPane.showMessageDialog(this, 
+                    "Cette adresse email est déjà utilisée", 
+                    "Erreur d'inscription", 
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            // Create client first
+            Client client = new Client();
+            client.setNom(nom);
+            client.setPrenom(prenom);
+            client.setEmail(email);
+            client.setTelephone(telephone);
+            client.setAdresse(adresse.isEmpty() ? null : adresse);
+            client.setDateNaissance(parseDate(dateNaissanceStr));
+            client.setNationalite(nationalite.isEmpty() ? null : nationalite);
+            client.setNumeroPasseport(numeroPasseport.isEmpty() ? null : numeroPasseport);
+            client.setTypeClient(TypeClient.INDIVIDUEL);
+            client.setCreatedAt(LocalDateTime.now());
+            client.setUpdatedAt(LocalDateTime.now());
+            
+            // Insert client and get the generated ID
+            long clientId = ClientDAO.insert(client);
+            
+            // Create user account
+            Utilisateur utilisateur = new Utilisateur();
+            utilisateur.setEmail(email);
+            utilisateur.setMotDePasse(motDePasse); // In production, hash the password
+            utilisateur.setRole("client");
+            utilisateur.setClientId((int) clientId);
+            utilisateur.setEmployeId(null);
+            utilisateur.setActif(true);
+            utilisateur.setCreatedAt(LocalDateTime.now());
+            utilisateur.setUpdatedAt(LocalDateTime.now());
+            
+            // Insert user
+            long userId = UtilisateurDAO.insert(utilisateur);
+            
+            if (userId > 0) {
+                JOptionPane.showMessageDialog(this, 
+                    "Inscription réussie ! Vous pouvez maintenant vous connecter.", 
+                    "Succès", 
+                    JOptionPane.INFORMATION_MESSAGE);
+                
+                // Clear form
+                clearForm();
+                
+                // Return to login
+                returnToLogin();
+            } else {
+                JOptionPane.showMessageDialog(this, 
+                    "Erreur lors de l'inscription", 
+                    "Erreur", 
+                    JOptionPane.ERROR_MESSAGE);
+            }
+            
+        } catch (SQLException | ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(this, 
+                "Erreur de base de données: " + e.getMessage(), 
+                "Erreur système", 
+                JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+    
+    private boolean validateForm(String nom, String prenom, String email, String telephone, 
+                                String motDePasse, String confirmPassword) {
+        
+        // Check for required fields
+        if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || 
+            telephone.isEmpty() || motDePasse.isEmpty() || confirmPassword.isEmpty()) {
+            JOptionPane.showMessageDialog(this, 
+                "Veuillez remplir tous les champs obligatoires (Nom, Prénom, Email, Téléphone, Mot de passe)", 
+                "Erreur de validation", 
+                JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        // Validate name length
+        if (nom.length() < 2 || prenom.length() < 2) {
+            JOptionPane.showMessageDialog(this, 
+                "Le nom et prénom doivent contenir au moins 2 caractères", 
+                "Erreur de validation", 
+                JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        // Validate email format
+        if (!isValidEmail(email)) {
+            JOptionPane.showMessageDialog(this, 
+                "Format d'email invalide", 
+                "Erreur de validation", 
+                JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        // Validate phone number
+        if (!isValidPhone(telephone)) {
+            JOptionPane.showMessageDialog(this, 
+                "Format de téléphone invalide", 
+                "Erreur de validation", 
+                JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        // Validate password
+        if (motDePasse.length() < 6) {
+            JOptionPane.showMessageDialog(this, 
+                "Le mot de passe doit contenir au moins 6 caractères", 
+                "Erreur de validation", 
+                JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        // Check password confirmation
+        if (!motDePasse.equals(confirmPassword)) {
+            JOptionPane.showMessageDialog(this, 
+                "Les mots de passe ne correspondent pas", 
+                "Erreur de validation", 
+                JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        return true;
+    }
+    
+    private LocalDate parseDate(String dateStr) {
+        if (dateStr == null || dateStr.trim().isEmpty()) {
+            return null;
+        }
+        
+        try {
+            // Try different date formats
+            String[] formats = {"yyyy-MM-dd", "dd/MM/yyyy", "dd-MM-yyyy"};
+            for (String format : formats) {
+                try {
+                    return LocalDate.parse(dateStr, DateTimeFormatter.ofPattern(format));
+                } catch (DateTimeParseException e) {
+                    // Continue to next format
+                }
+            }
+        } catch (Exception e) {
+            // Return null if parsing fails
+        }
+        return null;
+    }
+    
+    private boolean isValidEmail(String email) {
+        return email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
+    }
+    
+    private boolean isValidPhone(String phone) {
+        // Remove spaces and special characters
+        String cleanPhone = phone.replaceAll("[\\s\\-\\(\\)]", "");
+        return cleanPhone.matches("^[0-9]{10}$");
+    }
+    
+    private void clearForm() {
+        txtNom.setText("");
+        txtPrenom.setText("");
+        txtEmail.setText("");
+        txtTelephone.setText("");
+        txtAdresse.setText("");
+        txtDateNaissance.setText("");
+        txtNationalite.setText("");
+        txtNumeroPasseport.setText("");
+        txtMotDePasse1.setText("");
+        txtConfirmPassword.setText("");
+    }
+    
+    private void returnToLogin() {
+        try {
+            ConnexionForm connexionForm = new ConnexionForm();
+            connexionForm.setVisible(true);
+            this.dispose();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Erreur lors du retour à la connexion: " + e.getMessage(), 
+                "Erreur", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -78,5 +465,28 @@ public class InscriptionForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnInscription;
+    private javax.swing.JButton btnRetour;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JTextField txtAdresse;
+    private javax.swing.JTextField txtConfirmPassword;
+    private javax.swing.JTextField txtDateNaissance;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtMotDePasse1;
+    private javax.swing.JTextField txtNationalite;
+    private javax.swing.JTextField txtNom;
+    private javax.swing.JTextField txtNumeroPasseport;
+    private javax.swing.JTextField txtPrenom;
+    private javax.swing.JTextField txtTelephone;
     // End of variables declaration//GEN-END:variables
 }
