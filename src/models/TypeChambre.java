@@ -9,19 +9,19 @@ public class TypeChambre {
     private String description;
     private BigDecimal prixBase;
     private int capaciteMax;
-    private String amenities;
+    private String equipements;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     
     public TypeChambre() {}
 
-    public TypeChambre(int id, String nom, String description, BigDecimal prixBase, int capaciteMax, String amenities, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public TypeChambre(int id, String nom, String description, BigDecimal prixBase, int capaciteMax, String equipements, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.nom = nom;
         this.description = description;
         this.prixBase = prixBase;
         this.capaciteMax = capaciteMax;
-        this.amenities = amenities;
+        this.equipements = equipements;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -43,8 +43,8 @@ public class TypeChambre {
     public int getCapaciteMax() { return capaciteMax; }
     public void setCapaciteMax(int capaciteMax) { this.capaciteMax = capaciteMax; }
     
-    public String getAmenities() { return amenities; }
-    public void setAmenities(String amenities) { this.amenities = amenities; }
+    public String getEquipements() { return equipements; }
+    public void setEquipements(String equipements) { this.equipements = equipements; }
     
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }

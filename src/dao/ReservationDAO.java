@@ -31,8 +31,8 @@ public class ReservationDAO {
     }
 
     public static int insert(Reservation reservation) throws SQLException, ClassNotFoundException {
-        String query = "INSERT INTO reservation (client_id, date_checkin, date_checkout, nombre_adultes, nombre_enfants, statut, montant_total, acompte, commentaires, created_at, updated_at) " +
-                       "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO reservation (client_id, date_debut, date_fin, nombre_adultes, nombre_enfants, statut, montant_total, acompte, created_at, updated_at) " +
+                       "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         long id = DatabaseService.executeInsertWithGeneratedKey(query,
                 reservation.getClientId(),
@@ -43,7 +43,6 @@ public class ReservationDAO {
                 reservation.getStatut().name(),
                 reservation.getMontantTotal(),
                 reservation.getAcompte(),
-                reservation.getCommentaires(),
                 Timestamp.valueOf(reservation.getCreatedAt()),
                 Timestamp.valueOf(reservation.getUpdatedAt())
         );
@@ -60,7 +59,7 @@ public class ReservationDAO {
     }
 
     public static boolean update(Reservation reservation) throws SQLException, ClassNotFoundException {
-        String query = "UPDATE reservation SET client_id = ?, date_checkin = ?, date_checkout = ?, nombre_adultes = ?, nombre_enfants = ?, statut = ?, montant_total = ?, acompte = ?, commentaires = ?, updated_at = ? WHERE id = ?";
+        String query = "UPDATE reservation SET client_id = ?, date_debut = ?, date_fin = ?, nombre_adultes = ?, nombre_enfants = ?, statut = ?, montant_total = ?, acompte = ?, updated_at = ? WHERE id = ?";
 
         int rows = DatabaseService.executeUpdate(query,
                 reservation.getClientId(),
@@ -71,7 +70,6 @@ public class ReservationDAO {
                 reservation.getStatut().name(),
                 reservation.getMontantTotal(),
                 reservation.getAcompte(),
-                reservation.getCommentaires(),
                 Timestamp.valueOf(reservation.getUpdatedAt()),
                 reservation.getId()
         );
@@ -93,14 +91,23 @@ public class ReservationDAO {
         r.setId(rs.getInt("id"));
         r.setClientId(rs.getInt("client_id"));
         r.setClient(ClientDAO.findById(rs.getInt("client_id")));
-        r.setDateCheckin(rs.getDate("date_checkin").toLocalDate());
-        r.setDateCheckout(rs.getDate("date_checkout").toLocalDate());
+        java.sql.Date dateDebutSql = rs.getDate("date_debut");
+        if (dateDebutSql != null) {
+            r.setDateCheckin(dateDebutSql.toLocalDate());
+        } else {
+            r.setDateCheckin(null);
+        }
+        java.sql.Date dateFinSql = rs.getDate("date_fin");
+        if (dateFinSql != null) {
+            r.setDateCheckout(dateFinSql.toLocalDate());
+        } else {
+            r.setDateCheckout(null);
+        }
         r.setNombreAdultes(rs.getInt("nombre_adultes"));
         r.setNombreEnfants(rs.getInt("nombre_enfants"));
-        r.setStatut(StatutReservation.valueOf(rs.getString("statut")));
+        r.setStatut(StatutReservation.valueOf(rs.getString("statut").toUpperCase()));
         r.setMontantTotal(rs.getBigDecimal("montant_total"));
         r.setAcompte(rs.getBigDecimal("acompte"));
-        r.setCommentaires(rs.getString("commentaires"));
         r.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
         r.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
         r.setChambres(ReservationChambreDAO.getByReservationId(r.getId()));

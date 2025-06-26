@@ -4,6 +4,22 @@
  */
 package ui.admin;
 
+import dao.EmployeDAO;
+import models.Employe;
+import enums.Enums.Departement;
+import enums.Enums.StatutEmploye;
+import javax.swing.table.DefaultTableModel;
+
+import java.sql.SQLException;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+import dao.ChambreDAO;
+import models.Chambre;
+import models.TypeChambre;
+import dao.TypeChambreDAO;
+
 /**
  *
  * @author diaom
@@ -15,6 +31,10 @@ public class AdminDashboard extends javax.swing.JFrame {
      */
     public AdminDashboard() {
         initComponents();
+        setupDashboard();
+        chargerEmployesDansTable();
+        chargerChambresDansTable();
+        chargerReservationsClientsDansTable();
     }
 
     /**
@@ -26,21 +46,709 @@ public class AdminDashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
+        jButton1 = new javax.swing.JButton();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        btnAjouterEmploye = new javax.swing.JButton();
+        btnModifierEmploye = new javax.swing.JButton();
+        btnSupprimerEmploye = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        btnAjouterChambre = new javax.swing.JButton();
+        btnModifierChambre = new javax.swing.JButton();
+        btnSupprimerChambre = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        ListReservationClient = new javax.swing.JTable();
+        btnValiderReservation = new javax.swing.JButton();
+        btnAnnulerReservation = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        ListDeTousLesEvenements = new javax.swing.JTable();
+        btnSupprimerEvenement = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setLayout(new java.awt.BorderLayout(10, 0));
+
+        jLabel1.setText("🏨 ADMIN DASHBOARD");
+
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Employés", "Chambres", "Services" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(jList1);
+
+        jButton1.setText("déconnexion");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton1)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(87, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(jLabel1)
+                .addGap(71, 71, 71)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(105, 105, 105)
+                .addComponent(jButton1)
+                .addContainerGap(235, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(jPanel2, java.awt.BorderLayout.WEST);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable1);
+
+        btnAjouterEmploye.setText("Ajouter Employe");
+
+        btnModifierEmploye.setText("Modifier Employe");
+
+        btnSupprimerEmploye.setText("Supprimer Employe");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(btnAjouterEmploye)
+                .addGap(43, 43, 43)
+                .addComponent(btnModifierEmploye)
+                .addGap(53, 53, 53)
+                .addComponent(btnSupprimerEmploye)
+                .addContainerGap(167, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(58, 58, 58)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAjouterEmploye)
+                    .addComponent(btnModifierEmploye)
+                    .addComponent(btnSupprimerEmploye))
+                .addGap(0, 81, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Employés", jPanel3);
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable2);
+
+        btnAjouterChambre.setText("Ajouter Chambre");
+
+        btnModifierChambre.setText("Modifier Chambre");
+
+        btnSupprimerChambre.setText("Supprimer Chambre");
+        btnSupprimerChambre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSupprimerChambreActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(btnAjouterChambre)
+                .addGap(43, 43, 43)
+                .addComponent(btnModifierChambre)
+                .addGap(53, 53, 53)
+                .addComponent(btnSupprimerChambre)
+                .addContainerGap(158, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(58, 58, 58)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAjouterChambre)
+                    .addComponent(btnModifierChambre)
+                    .addComponent(btnSupprimerChambre))
+                .addGap(0, 81, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Chambre", jPanel4);
+
+        ListReservationClient.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(ListReservationClient);
+
+        btnValiderReservation.setText("Valider reservation");
+        btnValiderReservation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnValiderReservationActionPerformed(evt);
+            }
+        });
+
+        btnAnnulerReservation.setText("Anuller reservation");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(btnValiderReservation)
+                .addGap(43, 43, 43)
+                .addComponent(btnAnnulerReservation)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(58, 58, 58)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnValiderReservation)
+                    .addComponent(btnAnnulerReservation))
+                .addGap(0, 81, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("reservation client", jPanel5);
+
+        ListDeTousLesEvenements.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane5.setViewportView(ListDeTousLesEvenements);
+
+        btnSupprimerEvenement.setText("Supprimer Evenement");
+        btnSupprimerEvenement.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSupprimerEvenementActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnSupprimerEvenement)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(55, 55, 55)
+                .addComponent(btnSupprimerEvenement)
+                .addGap(0, 84, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("List de Tous Les Evenements", jPanel6);
+
+        jPanel1.add(jTabbedPane1, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnSupprimerChambreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupprimerChambreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSupprimerChambreActionPerformed
+
+    private void btnSupprimerEvenementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupprimerEvenementActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSupprimerEvenementActionPerformed
+
+    private void btnValiderReservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValiderReservationActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnValiderReservationActionPerformed
+
+    void chargerEmployesDansTable() {
+        try {
+            List<Employe> employes = EmployeDAO.findAll();
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+
+            // Définir les colonnes
+            String[] colonnes = {"ID", "Nom", "Prénom", "Email", "Téléphone", "Poste", "Département", "Statut"};
+            model.setColumnIdentifiers(colonnes);
+
+            // Vider le tableau
+            model.setRowCount(0);
+
+            // Ajouter les lignes
+            for (Employe emp : employes) {
+                Object[] row = {
+                    emp.getId(),
+                    emp.getNom(),
+                    emp.getPrenom(),
+                    emp.getEmail(),
+                    emp.getTelephone(),
+                    emp.getPoste(),
+                    emp.getDepartement().name(),
+                    emp.getStatut().name()
+                };
+                model.addRow(row);
+            }
+            // Cacher la colonne ID
+            jTable1.getColumnModel().getColumn(0).setMinWidth(0);
+            jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
+            jTable1.getColumnModel().getColumn(0).setWidth(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            javax.swing.JOptionPane.showMessageDialog(this, "Erreur lors du chargement des employés : " + e.getMessage());
+        }
+    }
+
+    void chargerChambresDansTable() {
+        try {
+            List<Chambre> chambres = ChambreDAO.findAll();
+            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+
+            // Définir les colonnes
+            String[] colonnes = {"ID", "Numéro", "Type", "Statut", "Prix"};
+            model.setColumnIdentifiers(colonnes);
+
+            // Vider le tableau
+            model.setRowCount(0);
+
+            // Ajouter les lignes
+            for (Chambre ch : chambres) {
+                TypeChambre type = TypeChambreDAO.findById(ch.getTypeChambreId());
+                Object[] row = {
+                    ch.getId(),
+                    ch.getNumero(),
+                    (type != null ? type.getNom() : "N/A"),
+                    ch.getStatut(),
+                    (type != null ? type.getPrixBase() : "N/A")
+                };
+                model.addRow(row);
+            }
+            // Cacher la colonne ID
+            jTable2.getColumnModel().getColumn(0).setMinWidth(0);
+            jTable2.getColumnModel().getColumn(0).setMaxWidth(0);
+            jTable2.getColumnModel().getColumn(0).setWidth(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            javax.swing.JOptionPane.showMessageDialog(this, "Erreur lors du chargement des chambres : " + e.getMessage());
+        }
+    }
+
+    void chargerReservationsClientsDansTable() {
+        try {
+            java.util.List<models.Reservation> reservations = dao.ReservationDAO.getAll();
+            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) ListReservationClient.getModel();
+            String[] colonnes = {"ID", "Client", "Chambres", "Date début", "Date fin", "Statut", "Montant"};
+            model.setColumnIdentifiers(colonnes);
+            model.setRowCount(0);
+            for (models.Reservation r : reservations) {
+                String client = (r.getClient() != null) ? r.getClient().getNomComplet() : "";
+                String chambres = r.getChambres() != null && !r.getChambres().isEmpty() ?
+                    r.getChambres().stream().map(rc -> rc.getChambre() != null ? rc.getChambre().getNumero() : "").reduce((a,b) -> a+", "+b).orElse("") : "";
+                Object[] row = {
+                    r.getId(),
+                    client,
+                    chambres,
+                    r.getDateCheckin(),
+                    r.getDateCheckout(),
+                    r.getStatut(),
+                    r.getMontantTotal()
+                };
+                model.addRow(row);
+            }
+            // Cacher la colonne ID
+            ListReservationClient.getColumnModel().getColumn(0).setMinWidth(0);
+            ListReservationClient.getColumnModel().getColumn(0).setMaxWidth(0);
+            ListReservationClient.getColumnModel().getColumn(0).setWidth(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            javax.swing.JOptionPane.showMessageDialog(this, "Erreur lors du chargement des réservations clients : " + e.getMessage());
+        }
+    }
+
+    private void setupDashboard() {
+        // Configuration de la fenêtre
+        setTitle("Dashboard Administrateur - Gestion Hotel");
+        setLocationRelativeTo(null);
+        
+        // Configuration de la navigation
+        jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            @Override
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                if (!evt.getValueIsAdjusting()) {
+                    handleNavigation();
+                }
+            }
+        });
+        
+        // Configuration des boutons employés
+        btnAjouterEmploye.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ajouterEmploye();
+            }
+        });
+        
+        btnModifierEmploye.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modifierEmploye();
+            }
+        });
+        
+        btnSupprimerEmploye.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                supprimerEmploye();
+            }
+        });
+        
+        // Configuration du bouton déconnexion
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deconnexion();
+            }
+        });
+
+        btnAjouterChambre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ChambreForm form = new ChambreForm(AdminDashboard.this);
+                form.setVisible(true);
+                chargerChambresDansTable();
+            }
+        });
+
+        btnModifierChambre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                int selectedRow = jTable2.getSelectedRow();
+                if (selectedRow == -1) {
+                    JOptionPane.showMessageDialog(AdminDashboard.this, "Veuillez sélectionner une chambre à modifier.");
+                    return;
+                }
+                int chambreId = Integer.parseInt(jTable2.getValueAt(selectedRow, 0).toString());
+                Chambre chambre = null;
+                try {
+                    chambre = ChambreDAO.findById(chambreId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (chambre != null) {
+                    ChambreForm form = new ChambreForm(AdminDashboard.this, chambre);
+                    form.setVisible(true);
+                    chargerChambresDansTable();
+                }
+            }
+        });
+
+        btnSupprimerChambre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                int selectedRow = jTable2.getSelectedRow();
+                if (selectedRow == -1) {
+                    JOptionPane.showMessageDialog(AdminDashboard.this, "Veuillez sélectionner une chambre à supprimer.");
+                    return;
+                }
+                int chambreId = (int) jTable2.getValueAt(selectedRow, 0);
+                int confirm = JOptionPane.showConfirmDialog(AdminDashboard.this, "Supprimer cette chambre ?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    try {
+                        ChambreDAO.delete(chambreId);
+                    } catch (ClassNotFoundException | SQLException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    chargerChambresDansTable();
+                }
+            }
+        });
+
+        btnValiderReservation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                validerReservationClient();
+            }
+        });
+
+        btnAnnulerReservation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                annulerReservationClient();
+            }
+        });
+    }
+    
+    private void handleNavigation() {
+        String selected = jList1.getSelectedValue();
+        if (selected != null) {
+            switch (selected) {
+                case "Employés":
+                    showEmployesTab();
+                    break;
+                case "Chambres":
+                    showChambresTab();
+                    break;
+                case "Services":
+                    showServicesTab();
+                    break;
+            }
+        }
+    }
+    
+    private void showEmployesTab() {
+        // L'onglet employés est déjà visible par défaut
+        jTabbedPane1.setSelectedIndex(0);
+    }
+    
+    private void showChambresTab() {
+        jTabbedPane1.setSelectedIndex(1);
+        chargerChambresDansTable();
+    }
+    
+    private void showServicesTab() {
+        // TODO: Implémenter l'onglet services
+        javax.swing.JOptionPane.showMessageDialog(this, 
+            "Gestion des services - À implémenter", 
+            "Fonctionnalité en développement", 
+            javax.swing.JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    private void ajouterEmploye() {
+        try {
+            EmployeForm form = new EmployeForm(this);
+            form.setVisible(true);
+            // Rafraîchir la liste après ajout
+            chargerEmployesDansTable();
+        } catch (Exception e) {
+            e.printStackTrace();
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Erreur lors de l'ouverture du formulaire : " + e.getMessage(), 
+                "Erreur", 
+                javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void modifierEmploye() {
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Veuillez sélectionner un employé à modifier", 
+                "Aucune sélection", 
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        try {
+            int employeId = (int) jTable1.getValueAt(selectedRow, 0);
+            Employe employe = EmployeDAO.findById(employeId);
+            if (employe != null) {
+                EmployeForm form = new EmployeForm(this, employe);
+                form.setVisible(true);
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Employé non trouvé", 
+                    "Erreur", 
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Erreur lors de la modification : " + e.getMessage(), 
+                "Erreur", 
+                javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void supprimerEmploye() {
+        int selectedRow = jTable1.getSelectedRow();
+        if (selectedRow == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Veuillez sélectionner un employé à supprimer", 
+                "Aucune sélection", 
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        // Récupérer l'ID de l'employé sélectionné
+        Integer employeId = (Integer) jTable1.getValueAt(selectedRow, 0);
+        
+        // Vérifier si l'employé existe avant de proposer la suppression
+        try {
+            Employe employe = EmployeDAO.findById(employeId);
+            if (employe == null) {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Employé non trouvé", 
+                    "Erreur", 
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Erreur lors de la vérification de l'employé : " + e.getMessage(), 
+                "Erreur", 
+                javax.swing.JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        int confirm = javax.swing.JOptionPane.showConfirmDialog(this, 
+            "Êtes-vous sûr de vouloir supprimer cet employé ?", 
+            "Confirmation de suppression", 
+            javax.swing.JOptionPane.YES_NO_OPTION);
+        
+        if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+            try {
+                EmployeDAO.delete(employeId);
+                chargerEmployesDansTable();
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Employé supprimé avec succès", 
+                    "Succès", 
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception e) {
+                e.printStackTrace();
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Erreur lors de la suppression : " + e.getMessage(), 
+                    "Erreur", 
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
+    private void deconnexion() {
+        int confirm = javax.swing.JOptionPane.showConfirmDialog(this, 
+            "Êtes-vous sûr de vouloir vous déconnecter ?", 
+            "Confirmation de déconnexion", 
+            javax.swing.JOptionPane.YES_NO_OPTION);
+        
+        if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+            this.dispose();
+            // Retourner à la page de connexion
+            new ui.ConnexionForm().setVisible(true);
+        }
+    }
+
+    private void validerReservationClient() {
+        int selectedRow = ListReservationClient.getSelectedRow();
+        if (selectedRow == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Veuillez sélectionner une réservation à valider.");
+            return;
+        }
+        int reservationId = Integer.parseInt(ListReservationClient.getValueAt(selectedRow, 0).toString());
+        try {
+            models.Reservation reservation = dao.ReservationDAO.getById(reservationId);
+            if (reservation == null) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Réservation introuvable.");
+                return;
+            }
+            reservation.setStatut(enums.Enums.StatutReservation.CONFIRMEE);
+            reservation.setUpdatedAt(java.time.LocalDateTime.now());
+            dao.ReservationDAO.update(reservation);
+            chargerReservationsClientsDansTable();
+            javax.swing.JOptionPane.showMessageDialog(this, "Réservation validée avec succès.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            javax.swing.JOptionPane.showMessageDialog(this, "Erreur lors de la validation : " + e.getMessage());
+        }
+    }
+
+    private void annulerReservationClient() {
+        int selectedRow = ListReservationClient.getSelectedRow();
+        if (selectedRow == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Veuillez sélectionner une réservation à annuler.");
+            return;
+        }
+        int reservationId = Integer.parseInt(ListReservationClient.getValueAt(selectedRow, 0).toString());
+        try {
+            models.Reservation reservation = dao.ReservationDAO.getById(reservationId);
+            if (reservation == null) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Réservation introuvable.");
+                return;
+            }
+            reservation.setStatut(enums.Enums.StatutReservation.ANNULEE);
+            reservation.setUpdatedAt(java.time.LocalDateTime.now());
+            dao.ReservationDAO.update(reservation);
+            chargerReservationsClientsDansTable();
+            javax.swing.JOptionPane.showMessageDialog(this, "Réservation annulée avec succès.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            javax.swing.JOptionPane.showMessageDialog(this, "Erreur lors de l'annulation : " + e.getMessage());
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -78,5 +786,33 @@ public class AdminDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable ListDeTousLesEvenements;
+    private javax.swing.JTable ListReservationClient;
+    private javax.swing.JButton btnAjouterChambre;
+    private javax.swing.JButton btnAjouterEmploye;
+    private javax.swing.JButton btnAnnulerReservation;
+    private javax.swing.JButton btnModifierChambre;
+    private javax.swing.JButton btnModifierEmploye;
+    private javax.swing.JButton btnSupprimerChambre;
+    private javax.swing.JButton btnSupprimerEmploye;
+    private javax.swing.JButton btnSupprimerEvenement;
+    private javax.swing.JButton btnValiderReservation;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JList<String> jList1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     // End of variables declaration//GEN-END:variables
 }

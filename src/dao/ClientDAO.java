@@ -77,10 +77,15 @@ public class ClientDAO {
         client.setEmail(rs.getString("email"));
         client.setTelephone(rs.getString("telephone"));
         client.setAdresse(rs.getString("adresse"));
-        client.setDateNaissance(rs.getDate("date_naissance").toLocalDate());
+        java.sql.Date dateNaissanceSql = rs.getDate("date_naissance");
+        if (dateNaissanceSql != null) {
+            client.setDateNaissance(dateNaissanceSql.toLocalDate());
+        } else {
+            client.setDateNaissance(null);
+        }
         client.setNationalite(rs.getString("nationalite"));
         client.setNumeroPasseport(rs.getString("numero_passeport"));
-        client.setTypeClient(TypeClient.valueOf(rs.getString("type_client")));
+        client.setTypeClient(TypeClient.valueOf(rs.getString("type_client").toUpperCase()));
         client.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
         client.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
         return client;

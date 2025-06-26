@@ -94,7 +94,7 @@ public class ConnexionForm extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtEmail)
                             .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE))))
-                .addContainerGap(323, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,7 +111,7 @@ public class ConnexionForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLogin)
                     .addComponent(btnRegister))
-                .addContainerGap(309, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         pack();
@@ -223,15 +223,16 @@ public class ConnexionForm extends javax.swing.JFrame {
     
     private void openClientDashboard(Integer clientId) {
         try {
-            // For now, show a message since ClientDashboard might not be fully implemented
-            JOptionPane.showMessageDialog(this, 
-                "Tableau de bord client en cours de développement", 
-                "Information", 
-                JOptionPane.INFORMATION_MESSAGE);
-            
-            // You can uncomment this when ClientDashboard is fully implemented
-            // ui.client.ClientDashboard clientDashboard = new ui.client.ClientDashboard();
-            // clientDashboard.setVisible(true);
+            if (clientId == null || clientId < 0) {
+                JOptionPane.showMessageDialog(this, 
+                    "ID client manquant ou invalide", 
+                    "Erreur", 
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            ui.client.ClientDashboard clientDashboard = new ui.client.ClientDashboard(clientId);
+            clientDashboard.setVisible(true);
+            this.dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, 
                 "Erreur lors de l'ouverture du tableau de bord client: " + e.getMessage(), 

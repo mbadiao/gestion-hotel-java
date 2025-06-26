@@ -400,7 +400,7 @@ public class InscriptionForm extends javax.swing.JFrame {
     private boolean isValidPhone(String phone) {
         // Remove spaces and special characters
         String cleanPhone = phone.replaceAll("[\\s\\-\\(\\)]", "");
-        return cleanPhone.matches("^[0-9]{10}$");
+        return cleanPhone.matches("^[0-9]{9}$");
     }
     
     private void clearForm() {

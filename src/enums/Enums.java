@@ -15,7 +15,11 @@ public class Enums {
     }
 
     public enum Departement {
-        RECEPTION, MENAGE, RESTAURATION, MAINTENANCE, DIRECTION, SECURITE
+        RECEPTIONNISTE,
+        SERVICE, 
+        MAINTENANCE,
+        ADMIN;
+
     }
 
     public enum StatutEmploye {

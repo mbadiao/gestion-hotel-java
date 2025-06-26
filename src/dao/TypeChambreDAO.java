@@ -30,26 +30,26 @@ public class TypeChambreDAO {
     }
 
     public static  long insert(TypeChambre typeChambre) throws SQLException, ClassNotFoundException {
-        String query = "INSERT INTO type_chambre (nom, description, prix_base, capacite_max, amenities, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO type_chambre (nom, description, prix_base, capacite_max, equipements, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)";
         return DatabaseService.executeInsertWithGeneratedKey(query,
                 typeChambre.getNom(),
                 typeChambre.getDescription(),
                 typeChambre.getPrixBase(),
                 typeChambre.getCapaciteMax(),
-                typeChambre.getAmenities(),
+                typeChambre.getEquipements(),
                 typeChambre.getCreatedAt(),
                 typeChambre.getUpdatedAt()
         );
     }
 
     public static int update(TypeChambre typeChambre) throws SQLException, ClassNotFoundException {
-        String query = "UPDATE type_chambre SET nom = ?, description = ?, prix_base = ?, capacite_max = ?, amenities = ?, updated_at = ? WHERE id = ?";
+        String query = "UPDATE type_chambre SET nom = ?, description = ?, prix_base = ?, capacite_max = ?, equipements = ?, updated_at = ? WHERE id = ?";
         return DatabaseService.executeUpdate(query,
                 typeChambre.getNom(),
                 typeChambre.getDescription(),
                 typeChambre.getPrixBase(),
                 typeChambre.getCapaciteMax(),
-                typeChambre.getAmenities(),
+                typeChambre.getEquipements(),
                 typeChambre.getUpdatedAt(),
                 typeChambre.getId()
         );
@@ -67,7 +67,7 @@ public class TypeChambreDAO {
         type.setDescription(rs.getString("description"));
         type.setPrixBase(rs.getBigDecimal("prix_base"));
         type.setCapaciteMax(rs.getInt("capacite_max"));
-        type.setAmenities(rs.getString("amenities"));
+        type.setEquipements(rs.getString("equipements"));
         type.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
         type.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
         return type;

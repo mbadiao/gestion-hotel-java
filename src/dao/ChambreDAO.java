@@ -68,7 +68,7 @@ public class ChambreDAO {
         chambre.setNumero(rs.getString("numero"));
         chambre.setEtage(rs.getInt("etage"));
         chambre.setTypeChambreId(rs.getInt("type_chambre_id"));
-        chambre.setStatut(StatutChambre.valueOf(rs.getString("statut")));
+        chambre.setStatut(StatutChambre.valueOf(rs.getString("statut").toUpperCase()));
         chambre.setDescription(rs.getString("description"));
         chambre.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
         chambre.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());

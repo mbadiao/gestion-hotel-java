@@ -19,7 +19,7 @@ public class EmployeDAO {
                 employe.getEmail(),
                 employe.getTelephone(),
                 employe.getPoste(),
-                employe.getDepartement().name(),
+                employe.getDepartement().toString(),
                 employe.getSalaire(),
                 Date.valueOf(employe.getDateEmbauche()),
                 employe.getStatut().name()
@@ -58,7 +58,7 @@ public class EmployeDAO {
                 employe.getEmail(),
                 employe.getTelephone(),
                 employe.getPoste(),
-                employe.getDepartement().name(),
+                employe.getDepartement().toString(),
                 employe.getSalaire(),
                 Date.valueOf(employe.getDateEmbauche()),
                 employe.getStatut().name(),
@@ -96,7 +96,7 @@ public class EmployeDAO {
         emp.setDepartement(Departement.valueOf(rs.getString("departement")));
         emp.setSalaire(rs.getBigDecimal("salaire"));
         emp.setDateEmbauche(rs.getDate("date_embauche").toLocalDate());
-        emp.setStatut(StatutEmploye.valueOf(rs.getString("statut")));
+        emp.setStatut(StatutEmploye.valueOf(rs.getString("statut").toUpperCase()));
         
         Timestamp createdAt = rs.getTimestamp("created_at");
         Timestamp updatedAt = rs.getTimestamp("updated_at");
